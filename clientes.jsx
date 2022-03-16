@@ -1,13 +1,10 @@
-import axios from 'axios';
+
 import pdfMake from 'pdfmake/build/pdfmake'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 import { format } from 'date-fns'
 
 
-const instance = axios.create({
-   baseURL: 'http://localhost:5000',
-//    baseURL:'https://reports3.loca.lt',
-});
+
 
 async function clientesPDF(clientes){
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -40,8 +37,7 @@ async function clientesPDF(clientes){
    
                                                 
     
-    let patientData  = await instance.get("/api/schedulings")
-    console.log(patientData);
+  
      
     
    // const marc_D_agua =  'Tascom Tecnologia';
@@ -89,12 +85,12 @@ async function clientesPDF(clientes){
         
             return [
                 
-                {text: cliente.hora, fontSize: 9,alignment: 'center', margin: [0, 1, 0, 1]},
-                {text: cliente.date, fontSize: 9,alignment: 'center', margin: [0, 1, 0, 1]},
-                {text: cliente.paciente, fontSize: 9, margin: [0, 1, 0, 1]},
-                {text: cliente.prestador, fontSize: 9, margin: [0, 1, 0, 1]},
-                {text: cliente.setor, fontSize: 9,alignment: 'center', margin: [0, 1, 0, 1]},
-                {text: cliente.service, fontSize: 9, margin: [0, 1, 0, 1]},
+                {text: cliente.hour, fontSize: 9,alignment: 'center', margin: [0, 1, 0, 1]},//hour : e?.hour
+                {text: cliente.date, fontSize: 9,alignment: 'center', margin: [0, 1, 0, 1]},// date: e?.date
+                {text: cliente.patient, fontSize: 9, margin: [0, 1, 0, 1]},// e?.patient?.name
+                {text: cliente.employee, fontSize: 9, margin: [0, 1, 0, 1]},//e?.employee?.name,
+                {text: cliente.sector, fontSize: 9,alignment: 'center', margin: [0, 1, 0, 1]},//e?.sector?.describe,
+                {text: cliente.service, fontSize: 9, margin: [0, 1, 0, 1]},//e?.service?.describe
                 
                
             ]
@@ -108,7 +104,7 @@ async function clientesPDF(clientes){
             table:{
                 style:'tableExample',
                 headerRows: 1,
-                widths: [40, 60, 100, "*", 65,70 ],
+                widths: [35, 60, "*", "*", "*",70 ],
                 
                 body: [
                    
@@ -148,7 +144,7 @@ async function clientesPDF(clientes){
     
 
     function Rodape(currentPage, pageCount){
-      return  {text: ' Emitido por:' + "Tom" +' \n'+'Paginas' + currentPage.toString() + '/' + pageCount , alignment: 'right', fontSize: 10, bold:true,margin: [0, 0, 10, 0] }
+      return  {text: '\n'+' Emitido por:' + "Tom" +' \n'+'Paginas' + currentPage.toString() + '/' + pageCount , alignment: 'right', fontSize: 10, bold:true,margin: [0, 0, 10, 0] }
                                                                                         //Margin [ left, top, right, bottom ]
 
     }
